@@ -42,7 +42,13 @@ const Header = () => {
                         <DropdownMenuLabel>Browse  Category</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         {category.map((cat) => (
-                            <DropdownMenuItem>{cat.name}</DropdownMenuItem>
+                            <DropdownMenuItem key={cat.id}>
+                                <Image 
+                                alt='' 
+                                src={`http://localhost:1337${cat?.icon?.[0]?.url}`} 
+                                width={23} height={23} unoptimized={true}/>
+                                <p className='cursor-pointer text-lg'>{cat.name}</p>
+                            </DropdownMenuItem>
 
                         ))}
 

@@ -3,6 +3,6 @@ const axiosGlobal = axios.create({
     baseURL: "http://localhost:1337/api"
 })
 
-const getCategory = () => axiosGlobal.get("/categories")
+const getCategory = () => axiosGlobal.get("/categories?populate=*")
 
 export default {getCategory}
