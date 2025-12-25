@@ -15,4 +15,9 @@ const getCategoryList = () => axiosGlobal.get("/categories?populate=*").then(res
     return resp.data.data
 })
 
-export default { getCategory, getSlider , getCategoryList }
+
+const getProductList = () => axiosGlobal.get("/products?populate=*").then(resp => {
+    return resp.data.data
+})
+
+export default { getCategory, getSlider , getCategoryList, getProductList }
