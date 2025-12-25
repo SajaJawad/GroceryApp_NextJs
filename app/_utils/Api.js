@@ -4,8 +4,15 @@ const axiosGlobal = axios.create({
 })
 
 const getCategory = () => axiosGlobal.get("/categories?populate=*")
-const getSlider = () => axiosGlobal.get("/sliders?populate=*").then(resp=>{
-     return resp.data.data
+
+
+const getSlider = () => axiosGlobal.get("/sliders?populate=*").then(resp => {
+    return resp.data.data
 })
 
-export default {getCategory , getSlider}
+
+const getCategoryList = () => axiosGlobal.get("/categories?populate=*").then(resp => {
+    return resp.data.data
+})
+
+export default { getCategory, getSlider , getCategoryList }
