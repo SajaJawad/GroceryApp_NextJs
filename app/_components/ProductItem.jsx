@@ -1,6 +1,15 @@
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import React from 'react'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import ProductDetail from './ProductDetail'
 
 const ProductItem = ({ product }) => {
     return (
@@ -19,7 +28,20 @@ const ProductItem = ({ product }) => {
             </div>
 
 
-            <Button>Add to Cart</Button>
+
+
+            <Dialog>
+                <DialogTrigger> <Button>Add to Cart</Button></DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogDescription>
+                            <ProductDetail product={product}/>
+                        </DialogDescription>
+                    </DialogHeader>
+                </DialogContent>
+            </Dialog>
+
+
         </div>
     )
 }
