@@ -20,4 +20,15 @@ const getProductList = () => axiosGlobal.get("/products?populate=*").then(resp =
     return resp.data.data
 })
 
-export default { getCategory, getSlider , getCategoryList, getProductList }
+// const getProductByCategory = (category) => 
+//   axiosGlobal
+//     .get(`/products?filters[categories][name][$in]=${encodeURIComponent(category)}&populate=*`)
+//     .then(resp => resp.data.data);
+
+export const getProductByCategory = (category) =>
+  axiosGlobal
+    .get(`/products?filters[categories][name][$containsi]=${encodeURIComponent(category)}&populate=*`)
+    .then(resp => resp.data.data)
+
+
+export default { getCategory, getSlider , getCategoryList, getProductList , getProductByCategory }

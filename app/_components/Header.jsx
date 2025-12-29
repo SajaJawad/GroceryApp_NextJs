@@ -31,7 +31,7 @@ const Header = () => {
     return (
         <div className='shadow-md flex justify-between p-2'>
             <div className='flex items-center gap-8'>
-                <Image src="/logo.png" width={100} height={100} alt='' />
+                <Image src="/logo.png" width={100} height={100} alt=''  loading="eager"/>
 
 
 
