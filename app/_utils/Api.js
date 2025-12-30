@@ -36,5 +36,9 @@ export const getProductByCategory = (category) =>
         email:email,
         password:password
     })
+    const signIn=( email , password )=>axiosGlobal.post("/auth/local", {
+        identifier:email,
+        password:password
+    })
 
-export default { getCategory, getSlider , getCategoryList, getProductList , getProductByCategory , registerUser}
+export default { getCategory, getSlider , getCategoryList, getProductList , getProductByCategory , registerUser , signIn}
