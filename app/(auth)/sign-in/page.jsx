@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 
@@ -32,16 +32,24 @@ function SignIn() {
 
           console.log("User:", data.user)
           console.log("JWT:", data.jwt)
-          toast("Account created successfully!")
+          toast("Signed in successfully!")
           router.push("/")
         } else {
           toast("Unexpected response from server")
         }
       })
       .catch(err => {
-        toast("Error while created.")
+        toast("Error while signing in.")
       })
   }
+
+  useEffect(()=>{
+    const jwt= sessionStorage.getItem("jwt")
+
+    if(jwt){
+      router.push("/")
+    }
+  },[])
 
   return (
     <div className='items-baseline flex m-20 justify-center'>

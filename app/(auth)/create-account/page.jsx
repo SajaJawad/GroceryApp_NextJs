@@ -39,6 +39,14 @@ const onCreateAccount = () => {
     })
 }
 
+  useEffect(()=>{
+    const jwt= sessionStorage.getItem("jwt")
+
+    if(jwt){
+      router.push("/")
+    }
+  },[])
+
 
         return (
             <div className='items-baseline flex m-20 justify-center'>
