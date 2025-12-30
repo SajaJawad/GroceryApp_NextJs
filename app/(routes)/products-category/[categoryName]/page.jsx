@@ -18,7 +18,7 @@ const ProductCategory = async ({ params }) => {
       <h2 className='bg-[#ffcc00] text-black font-bold p-4 text-center text-2xl capitalize'>
         {decodeURIComponent(categoryName)}
       </h2>
-      <TopCategoryList categoryList={categoryList} />
+      <TopCategoryList categoryList={categoryList} selectedCategory={decodeURIComponent(categoryName)}/>
       <ProductList productList={productList} />
 
 

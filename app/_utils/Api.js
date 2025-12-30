@@ -31,4 +31,10 @@ export const getProductByCategory = (category) =>
     .then(resp => resp.data.data)
 
 
-export default { getCategory, getSlider , getCategoryList, getProductList , getProductByCategory }
+    const registerUser=(username , email , password )=>axiosGlobal.post("/auth/local/register", {
+        username:username,
+        email:email,
+        password:password
+    })
+
+export default { getCategory, getSlider , getCategoryList, getProductList , getProductByCategory , registerUser}
