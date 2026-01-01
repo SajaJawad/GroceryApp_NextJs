@@ -28,7 +28,7 @@ function SignIn() {
         const data = resp.data
         if (data && data.user && data.jwt) {
           sessionStorage.setItem("user", JSON.stringify(data.user))
-          localStorage.setItem("jwt", data.jwt)
+          sessionStorage.setItem("jwt", data.jwt)
 
           console.log("User:", data.user)
           console.log("JWT:", data.jwt)
