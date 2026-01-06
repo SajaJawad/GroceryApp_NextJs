@@ -51,12 +51,29 @@ const addToCart = (data, jwt) => axiosGlobal.post("/user-carts", data, {
 })
 
 
-const getCartItems = (userId, jwt) => axiosGlobal.get("/user-carts?filters[users_permissions_user][id][$eq]=" + userId + "&populate=*&t=" + Date.now(), {
+const getCartItems = (userId, jwt) => axiosGlobal.get("/user-carts?filters[users_permissions_user][id][$eq]=" + userId + "&populate[products][populate][image][populate]=*&t=" + Date.now(), {
     headers: {
         Authorization: `Bearer ${jwt}`
     }
 }).then(resp => {
-    return resp.data.data
+    const data = resp.data.data;
+    if (!data) return [];
+    
+    return data.map((item) => {
+        const product = item?.products?.[0]; 
+        // Handle cases where image might be in data[0] or attributes
+        const imageUrl = product?.image?.[0]?.url || product?.image?.url;
+
+        return {
+            name: product?.name,
+            quantity: item?.quantity,
+            amount: item?.amount,
+            image: imageUrl,
+            sellingPrice: product?.sillingPrice || product?.sellingPrice || product?.realPrice,
+            id: item.id,
+            product: product?.documentId || product?.id
+        }
+    })
 })
 
 export default { getCategory, getSlider, getCategoryList, getProductList, getProductByCategory, registerUser, signIn, addToCart , getCartItems }
