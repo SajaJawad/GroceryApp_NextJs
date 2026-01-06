@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "./_components/Header";
 import { Toaster } from "sonner";
 import { usePathname } from "next/navigation";
+import { CartContext } from "./_context/CartContext";
+import { useState } from "react";
 
 const outfit = Outfit({
   variable: "--font-geist-sans",
@@ -22,15 +24,22 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({ children }) {
   const params = usePathname()
-  const showHeader = params == "/sign-in" || params== "/create-account" ? false : true
+  const showHeader = params == "/sign-in" || params == "/create-account" ? false : true
+
+const [updateCart , setUpdateCart]= useState(false)
+
   return (
     <html lang="en">
       <body
         className={`${outfit.variable} ${geistMono.variable} antialiased`}
       >
-        {showHeader && <Header /> }
-        {children}
-        <Toaster />
+        <CartContext.Provider value={{updateCart, setUpdateCart}}>
+          {showHeader && <Header />}
+          {children}
+          <Toaster />
+
+        </CartContext.Provider>
+
       </body>
     </html>
   );

@@ -27,8 +27,8 @@ function SignIn() {
       .then(resp => {
         const data = resp.data
         if (data && data.user && data.jwt) {
-          sessionStorage.setItem("user", JSON.stringify(data.user))
-          sessionStorage.setItem("jwt", data.jwt)
+          localStorage.setItem("user", JSON.stringify(data.user))
+          localStorage.setItem("jwt", data.jwt)
 
           console.log("User:", data.user)
           console.log("JWT:", data.jwt)
@@ -43,13 +43,17 @@ function SignIn() {
       })
   }
 
-  useEffect(()=>{
-    const jwt= sessionStorage.getItem("jwt")
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt")
+    const user = localStorage.getItem("user")
 
-    if(jwt){
+    if (jwt && user) {
       router.push("/")
+    } else if (jwt || user) {
+      // Partially stale session, clear it
+      localStorage.clear()
     }
-  },[])
+  }, [])
 
   return (
     <div className='items-baseline flex m-20 justify-center'>

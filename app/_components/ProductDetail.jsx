@@ -3,19 +3,21 @@ import { Button } from '@/components/ui/button'
 import { ShoppingBasket } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Api from '../_utils/Api'
 import { toast } from 'sonner'
+import { CartContext } from '../_context/CartContext'
 
 const ProductDetail = ({ product }) => {
   const router = useRouter()
+  const { updateCart, setUpdateCart } = useContext(CartContext) // ✅ هنا في الأعلى
 
   const [quantity, setQuantity] = useState(1)
   const productPrice = product.sellingPrice ?? product.realPrice
 
   const addToCart = async () => {
-    const token = sessionStorage.getItem("jwt")
-    const userStr = sessionStorage.getItem("user")
+    const token = localStorage.getItem("jwt")
+    const userStr = localStorage.getItem("user")
     
     if (!token || !userStr) {
       router.push("/sign-in")
@@ -29,15 +31,14 @@ const ProductDetail = ({ product }) => {
         quantity,
         amount: Number((quantity * productPrice).toFixed(2)),
         products: product.id,
-        users_permissions_user: user.id,
-        userId:user.id
+        users_permissions_user: user.id
       }
     }
 
     try {
       await Api.addToCart(data, token)
       toast("Added to cart ✅")
-
+      setUpdateCart(prev => !prev) // Force refresh via toggle
     } catch (error) {
       console.error(error)
       toast("Error adding to cart ❌")
@@ -60,7 +61,7 @@ const ProductDetail = ({ product }) => {
         <p className="text-sm text-gray-500">{product.description}</p>
 
         <div className="flex gap-3 items-center">
-          <span className="font-bold text-2xl">{product.realPrice} $</span>
+          <span className="font-bold text-2xl">{productPrice} $</span>
           {product.sillingPrice && (
             <del className="text-2xl text-red-600">{product.sillingPrice} $</del>
           )}

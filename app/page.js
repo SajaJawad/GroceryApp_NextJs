@@ -15,7 +15,7 @@ export default async function Home() {
       <Slider sliderList={sliderList} />
       <CategoryList categoryList={categoryList} />
       <ProductList productList={productList}/>
-      <Image src={"/footerImg.png"} width={1000} height={300} alt="banner" unoptimized className="mt-8 " layout="responsive"/>
+      <Image src={"/footerImg.png"} width={1000} height={300} alt="banner" unoptimized className="mt-8 w-full h-auto" />
       <Footer/>
     </div>
   );

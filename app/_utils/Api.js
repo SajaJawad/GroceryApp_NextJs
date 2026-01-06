@@ -51,11 +51,11 @@ const addToCart = (data, jwt) => axiosGlobal.post("/user-carts", data, {
 })
 
 
-const getCartItems = (userId, jwt)=>axiosGlobal.get("/user-carts?filters[userId][$eq]="+userId+"&populate=*", {
-headers:{
-      Authorization: `Bearer ${jwt}`
-}
-}).then(resp=>{
+const getCartItems = (userId, jwt) => axiosGlobal.get("/user-carts?filters[users_permissions_user][id][$eq]=" + userId + "&populate=*&t=" + Date.now(), {
+    headers: {
+        Authorization: `Bearer ${jwt}`
+    }
+}).then(resp => {
     return resp.data.data
 })
 
