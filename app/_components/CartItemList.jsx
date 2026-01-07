@@ -1,10 +1,10 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import { TrashIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-const CartItemList = ({ cartItemList }) => {
+const CartItemList = ({ cartItemList, onDeleteItem }) => {
   const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
@@ -49,7 +49,10 @@ const CartItemList = ({ cartItemList }) => {
                     </h2>
                   </div>
                 </div>
-                <TrashIcon className="h-5 w-5 text-red-500 cursor-pointer hover:scale-110 transition-all" />
+                <TrashIcon
+                  className="h-5 w-5 text-red-500 cursor-pointer hover:scale-110 transition-all"
+                  onClick={() => onDeleteItem(cart.id)}
+                />
               </div>
             ))}
           </div>
@@ -66,7 +69,9 @@ const CartItemList = ({ cartItemList }) => {
         <h2 className="flex justify-between font-bold">
           subTotal: <span>{subTotal.toFixed(2)} $ </span>
         </h2>
-        <Button className="mt-5">View Cart</Button>
+        <Link href="/checkout">
+          <Button className="mt-5 w-full">View Cart</Button>
+        </Link>
       </div>
     </div>
   );

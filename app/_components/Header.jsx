@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/sheet";
 import CartItemList from "./CartItemList";
 
+import { toast } from "sonner";
+
 const Header = () => {
   const [category, setCategory] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
@@ -90,16 +92,31 @@ const Header = () => {
     }
   }, [updateCart]);
 
+  const onDeleteItem = (id) => {
+    Api.deleteCartItem(id, jwt)
+      .then((resp) => {
+        toast("Item removed from cart!");
+        getCartItems(userId.id, jwt);
+        setUpdateCart(!updateCart);
+      })
+      .catch((err) => {
+        toast.error("Failed to remove item");
+      });
+  };
+
   return (
     <div className="shadow-md flex justify-between p-2">
       <div className="flex items-center gap-8">
-        <Image
-          src="/logo.png"
-          width={100}
-          height={100}
-          alt=""
-          loading="eager"
-        />
+        <Link href={"/"}>
+          <Image
+            src="/logo.png"
+            width={100}
+            height={100}
+            alt=""
+            loading="eager"
+            className="cursor-pointer"
+          />
+        </Link>
 
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -111,16 +128,18 @@ const Header = () => {
             <DropdownMenuLabel>Browse Category</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {category.map((cat) => (
-              <DropdownMenuItem key={cat.id}>
-                <Image
-                  alt=""
-                  src={`http://localhost:1337${cat?.icon?.[0]?.url}`}
-                  width={23}
-                  height={23}
-                  unoptimized
-                />
-                <p className="cursor-pointer text-lg">{cat.name}</p>
-              </DropdownMenuItem>
+              <Link key={cat.id} href={"/products-category/" + cat.name}>
+                <DropdownMenuItem className="flex gap-2 items-center cursor-pointer">
+                  <Image
+                    alt=""
+                    src={`http://localhost:1337${cat?.icon?.[0]?.url}`}
+                    width={23}
+                    height={23}
+                    unoptimized
+                  />
+                  <p className="cursor-pointer text-lg">{cat.name}</p>
+                </DropdownMenuItem>
+              </Link>
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -145,7 +164,10 @@ const Header = () => {
               </SheetTitle>
             </SheetHeader>
             <div className="flex-1 overflow-auto">
-              <CartItemList cartItemList={cartItemList} />
+              <CartItemList
+                cartItemList={cartItemList}
+                onDeleteItem={onDeleteItem}
+              />
             </div>
           </SheetContent>
         </Sheet>
@@ -163,8 +185,14 @@ const Header = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Orders</DropdownMenuItem>
-              <DropdownMenuItem onClick={onSignOut}>Logout</DropdownMenuItem>
+              <Link href="/myOrders">
+                <DropdownMenuItem className="cursor-pointer">
+                  My Order
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem onClick={onSignOut} className="cursor-pointer">
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}

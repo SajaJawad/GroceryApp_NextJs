@@ -1,6 +1,6 @@
 import axios from "axios";
 const axiosGlobal = axios.create({
-    baseURL: "http://localhost:1337/api"
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:1337/api"
 })
 
 const getCategory = () => axiosGlobal.get("/categories?populate=*")
@@ -61,19 +61,51 @@ const getCartItems = (userId, jwt) => axiosGlobal.get("/user-carts?filters[users
     
     return data.map((item) => {
         const product = item?.products?.[0]; 
-        // Handle cases where image might be in data[0] or attributes
-        const imageUrl = product?.image?.[0]?.url || product?.image?.url;
+        // Handle Strapi 5 flattened structure vs deeper population
+        const image = product?.image?.[0] || product?.image;
+        const imageUrl = image?.url;
 
         return {
             name: product?.name,
             quantity: item?.quantity,
             amount: item?.amount,
             image: imageUrl,
-            sellingPrice: product?.sillingPrice || product?.sellingPrice || product?.realPrice,
-            id: item.id,
+            sellingPrice: product?.sellingPrice || product?.sillingPrice || product?.realPrice,
+            id: item.documentId || item.id,
             product: product?.documentId || product?.id
         }
     })
+
 })
 
-export default { getCategory, getSlider, getCategoryList, getProductList, getProductByCategory, registerUser, signIn, addToCart , getCartItems }
+
+
+const createOrder = (data, jwt) => axiosGlobal.post("/orders", data, {
+    headers: {
+        Authorization: `Bearer ${jwt}`
+    }
+})
+
+const getMyOrders = (userId, jwt) => axiosGlobal.get("/orders?filters[userId][$eq]=" + userId + "&populate=orderItemList", {
+    headers: {
+        Authorization: `Bearer ${jwt}`
+    }
+}).then(resp => {
+    const data = resp.data.data;
+    if (!data) return [];
+    return data.map(item => ({
+        id: item.id,
+        totalOrderAmount: item.totalOrderAmount,
+        orderItemList: item.orderItemList,
+        createdAt: item.createdAt
+    }))
+})
+
+const deleteCartItem = (id, jwt) => axiosGlobal.delete("/user-carts/" + id, {
+    headers: {
+        Authorization: `Bearer ${jwt}`
+    }
+})
+
+
+export default { getCategory, getSlider, getCategoryList, getProductList, getProductByCategory, registerUser, signIn, addToCart, getCartItems, createOrder, getMyOrders, myOrders: getMyOrders, deleteCartItem }
