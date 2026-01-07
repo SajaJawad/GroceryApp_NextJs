@@ -10,9 +10,10 @@ function MyOrderList({ orderItem }) {
             src={
               orderItem.productImage.startsWith("http")
                 ? orderItem.productImage
-                : `http://localhost:1337${
-                    orderItem.productImage.startsWith("/") ? "" : "/"
-                  }${orderItem.productImage}`
+                : (process.env.NEXT_PUBLIC_BACKEND_BASE_URL ||
+                    "http://localhost:1337") +
+                  (orderItem.productImage.startsWith("/") ? "" : "/") +
+                  orderItem.productImage
             }
             width={70}
             height={70}

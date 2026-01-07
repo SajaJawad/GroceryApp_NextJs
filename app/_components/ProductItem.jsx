@@ -1,21 +1,24 @@
-import { Button } from '@/components/ui/button'
-import Image from 'next/image'
-import React from 'react'
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import React from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import ProductDetail from './ProductDetail'
+} from "@/components/ui/dialog";
+import ProductDetail from "./ProductDetail";
 
 const ProductItem = ({ product }) => {
   return (
     <div className="p-2 md:p-6 flex flex-col items-center justify-center gap-3 border rounded-lg cursor-pointer hover:scale-105 hover:shadow-md transition-all">
       <Image
         className="w-90 h-60"
-        src={`http://localhost:1337${product?.image[0]?.url}`}
+        src={
+          (process.env.NEXT_PUBLIC_BACKEND_BASE_URL ||
+            "http://localhost:1337") + product?.image[0]?.url
+        }
         width={500}
         height={300}
         alt="icon"
@@ -52,14 +55,10 @@ const ProductItem = ({ product }) => {
         </DialogContent>
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
-export default ProductItem
-
-
-
-
+export default ProductItem;
 
 // import { Button } from '@/components/ui/button'
 // import Image from 'next/image'
@@ -79,7 +78,6 @@ export default ProductItem
 //         <div className='p-2 md:p-6 flex flex-col items-center justify-center gap-3 border rounded-lg cursor-pointer hover:scale-105 hover:shadow-md transition-all'>
 //             <Image className='w-90 h-60' src={`http://localhost:1337${product?.image[0]?.url}`} width={500} height={300} alt='icon' unoptimized style={{ objectFit: 'cover' }} />
 
-
 //             <div className='flex flex-col gap-1 items-center'>
 //                 <h2 className='text-amber-500 font-bold'>{product.name}</h2>
 //                 <div className='flex gap-2 items-center'>
@@ -89,9 +87,6 @@ export default ProductItem
 //                     )}
 //                 </div>
 //             </div>
-
-
-
 
 //             <Dialog>
 //                 <DialogTrigger> <Button>Add to Cart</Button></DialogTrigger>
@@ -103,7 +98,6 @@ export default ProductItem
 //                     </DialogHeader>
 //                 </DialogContent>
 //             </Dialog>
-
 
 //         </div>
 //     )

@@ -132,7 +132,10 @@ const Header = () => {
                 <DropdownMenuItem className="flex gap-2 items-center cursor-pointer">
                   <Image
                     alt=""
-                    src={`http://localhost:1337${cat?.icon?.[0]?.url}`}
+                    src={
+                      (process.env.NEXT_PUBLIC_BACKEND_BASE_URL ||
+                        "http://localhost:1337") + cat?.icon?.[0]?.url
+                    }
                     width={23}
                     height={23}
                     unoptimized

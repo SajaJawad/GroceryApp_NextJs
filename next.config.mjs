@@ -8,6 +8,14 @@ const nextConfig = {
         port: '1337',
         pathname: '/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: '**', // Allow all https domains for simplicity in production
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      }
     ],
   },
 }

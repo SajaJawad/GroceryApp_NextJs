@@ -28,7 +28,8 @@ const CartItemList = ({ cartItemList, onDeleteItem }) => {
                   <Image
                     src={
                       cart?.image
-                        ? `http://localhost:1337${cart.image}`
+                        ? (process.env.NEXT_PUBLIC_BACKEND_BASE_URL ||
+                            "http://localhost:1337") + cart.image
                         : "/placeholder.png"
                     }
                     width={70}

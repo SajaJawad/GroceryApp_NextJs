@@ -8,16 +8,25 @@ const getCategory = () => axiosGlobal.get("/categories?populate=*")
 
 const getSlider = () => axiosGlobal.get("/sliders?populate=*").then(resp => {
     return resp.data.data
+}).catch(err => {
+    console.warn("API Error (getSlider):", err.message);
+    return [];
 })
 
 
 const getCategoryList = () => axiosGlobal.get("/categories?populate=*").then(resp => {
     return resp.data.data
+}).catch(err => {
+    console.warn("API Error (getCategoryList):", err.message);
+    return [];
 })
 
 
 const getProductList = () => axiosGlobal.get("/products?populate=*").then(resp => {
     return resp.data.data
+}).catch(err => {
+    console.warn("API Error (getProductList):", err.message);
+    return [];
 })
 
 // const getProductByCategory = (category) => 
@@ -29,6 +38,10 @@ export const getProductByCategory = (category) =>
     axiosGlobal
         .get(`/products?filters[categories][name][$containsi]=${encodeURIComponent(category)}&populate=*`)
         .then(resp => resp.data.data)
+        .catch(err => {
+            console.warn("API Error (getProductByCategory):", err.message);
+            return [];
+        })
 
 
 const registerUser = (username, email, password) => axiosGlobal.post("/auth/local/register", {
@@ -76,6 +89,9 @@ const getCartItems = (userId, jwt) => axiosGlobal.get("/user-carts?filters[users
         }
     })
 
+}).catch(err => {
+    console.warn("API Error (getCartItems):", err.message);
+    return [];
 })
 
 
@@ -99,6 +115,9 @@ const getMyOrders = (userId, jwt) => axiosGlobal.get("/orders?filters[userId][$e
         orderItemList: item.orderItemList,
         createdAt: item.createdAt
     }))
+}).catch(err => {
+    console.warn("API Error (getMyOrders):", err.message);
+    return [];
 })
 
 const deleteCartItem = (id, jwt) => axiosGlobal.delete("/user-carts/" + id, {
